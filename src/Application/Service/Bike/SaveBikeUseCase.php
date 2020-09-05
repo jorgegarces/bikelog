@@ -3,12 +3,11 @@
 namespace App\Application\Service\Bike;
 
 use App\Domain\Model\Bike\Bike;
-use App\Domain\Model\Bike\BikeBrand;
 use App\Domain\Model\Bike\BikeDTO;
 use App\Domain\Model\Bike\BikeModel;
 use App\Domain\Model\Bike\BikeRepository;
+use App\Domain\Model\BikeBrand\BikeBrand;
 use App\Domain\Model\BikeBrand\BikeBrandRepository;
-use PHPUnit\Framework\InvalidArgumentException;
 
 class SaveBikeUseCase
 {
@@ -41,7 +40,7 @@ class SaveBikeUseCase
         );
     }
 
-    private function checkBrand(string $brand): BikeBrand
+    private function checkBrand(string $brand): ?BikeBrand
     {
         return $this->bikeBrandRepository->searchBrand($brand);
     }

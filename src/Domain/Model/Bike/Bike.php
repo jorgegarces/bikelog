@@ -3,6 +3,7 @@
 
 namespace App\Domain\Model\Bike;
 
+use App\Domain\Model\BikeBrand\BikeBrand;
 
 class Bike
 {
