@@ -7,25 +7,30 @@ use App\Domain\Model\Bike\BikeBrand;
 use App\Domain\Model\Bike\BikeDTO;
 use App\Domain\Model\Bike\BikeModel;
 use App\Domain\Model\Bike\BikeRepository;
+use App\Domain\Model\BikeBrand\BikeBrandRepository;
 use PHPUnit\Framework\InvalidArgumentException;
 
 class SaveBikeUseCase
 {
     private $bikeRepository;
+    private $bikeBrandRepository;
 
-    public function __construct(BikeRepository $bikeRepository)
+    public function __construct(
+        BikeRepository $bikeRepository,
+        BikeBrandRepository $bikeBrandRepository)
     {
         $this->bikeRepository = $bikeRepository;
+        $this->bikeBrandRepository = $bikeBrandRepository;
     }
 
     public function addBike(BikeDTO $bikeDTO)
     {
-        try {
-            $bike = $this->createFromDTO($bikeDTO);
-            $this->bikeRepository->save($bike);
-        } catch (InvalidArgumentException $e) {
-            // TODO: Log exception
+        if (null === ($this->checkBrand($bikeDTO->getBrand()))) {
+            throw new \InvalidArgumentException($bikeDTO->getBrand() . ' : Brand not found');
         }
+
+        $bike = $this->createFromDTO($bikeDTO);
+        $this->bikeRepository->save($bike);
     }
 
     private function createFromDTO(BikeDTO $bikeDTO): Bike
@@ -34,5 +39,10 @@ class SaveBikeUseCase
             BikeBrand::createFromString($bikeDTO->getBrand()),
             BikeModel::createFromString($bikeDTO->getModel())
         );
+    }
+
+    private function checkBrand(string $brand): BikeBrand
+    {
+        return $this->bikeBrandRepository->searchBrand($brand);
     }
 }
