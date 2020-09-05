@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Tests\unit\Domain\Model\Bike;
-
 
 use App\Domain\Model\Bike\BikeDTO;
 

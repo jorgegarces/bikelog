@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Domain\Model\Bike;
-
 
 use Psr\Log\InvalidArgumentException;
 
