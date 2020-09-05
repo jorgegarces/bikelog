@@ -24,7 +24,7 @@ class SaveBikeUseCaseTest extends TestCase
     protected function setUp(): void
     {
         $this->bikeRepository = $this->prophesize(BikeRepository::class);
-         $this->bikeBrandRepository = $this->prophesize(BikeBrandRepository::class);
+        $this->bikeBrandRepository = $this->prophesize(BikeBrandRepository::class);
         $this->saveBikeUseCase = new SaveBikeUseCase(
             $this->bikeRepository->reveal(),
             $this->bikeBrandRepository->reveal()
@@ -48,7 +48,8 @@ class SaveBikeUseCaseTest extends TestCase
     }
 
     /** @test */
-    public function should_not_save_a_bike_with_an_invalid_brand(){
+    public function should_not_save_a_bike_with_an_invalid_brand()
+    {
         $invalidBrand = 'anInvalidBrand';
         $saveBikeRequest = BikeDTOBuilder::aBike()
             ->withBrand($invalidBrand)
