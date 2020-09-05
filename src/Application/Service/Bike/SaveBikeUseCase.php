@@ -7,7 +7,7 @@ use App\Domain\Model\Bike\BikeDTO;
 use App\Domain\Model\Bike\BikeModel;
 use App\Domain\Model\Bike\BikeRepository;
 use App\Domain\Model\BikeBrand\BikeBrand;
-use App\Domain\Model\BikeBrand\BikeBrandRepository;
+use App\Domain\Model\BikeBrand\BikeInfoRepository;
 use InvalidArgumentException;
 
 class SaveBikeUseCase
@@ -17,32 +17,52 @@ class SaveBikeUseCase
 
     public function __construct(
         BikeRepository $bikeRepository,
-        BikeBrandRepository $bikeBrandRepository)
+        BikeInfoRepository $bikeBrandRepository
+    )
     {
         $this->bikeRepository = $bikeRepository;
         $this->bikeBrandRepository = $bikeBrandRepository;
     }
 
-    public function addBike(BikeDTO $bikeDTO)
+    public function addBike(BikeDTO $requestDTO)
     {
-        if (null === ($this->checkBrand($bikeDTO->getBrand()))) {
-            throw new InvalidArgumentException($bikeDTO->getBrand() . ' : Brand not found');
+        $this->checkBikeInfo($requestDTO);
+        $this->bikeRepository->save($this->createFromDTO($requestDTO));
+    }
+
+    private function checkBikeInfo(BikeDTO $request): void
+    {
+        $bikeBrand = $this->checkBrand($request->getBrand());
+        if (null === $bikeBrand) {
+            throw new InvalidArgumentException($request->getBrand() . ' : Brand not found.');
         }
 
-        $bike = $this->createFromDTO($bikeDTO);
-        $this->bikeRepository->save($bike);
+        $bikeModel = $this->checkModel($request->getBrand(), $request->getModel());
+        if (null === $bikeModel) {
+            throw new InvalidArgumentException($request->getModel() . ' : Model for that brand not found.');
+        }
     }
 
     private function checkBrand(string $brand): ?BikeBrand
     {
-        return $this->bikeBrandRepository->searchBrand($brand);
+        return $this->bikeBrandRepository
+            ->findBrand(BikeBrand::createFromString($brand));
+    }
+
+    private function checkModel(string $brand, string $model)
+    {
+        return $this->bikeBrandRepository
+            ->findModelForBrand(
+                BikeBrand::createFromString($brand),
+                BikeModel::createFromString($model));
     }
 
     private function createFromDTO(BikeDTO $bikeDTO): Bike
     {
         return new Bike(
             BikeBrand::createFromString($bikeDTO->getBrand()),
-            BikeModel::createFromString($bikeDTO->getModel())
+            BikeModel::createFromString($bikeDTO->getModel()),
+            $bikeDTO->getYear()
         );
     }
 }

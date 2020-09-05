@@ -8,11 +8,13 @@ class BikeDTOBuilder
 {
     private $brand;
     private $model;
+    private $year;
 
     private function __construct()
     {
         $this->brand = 'Honda';
         $this->model = 'Fireblade';
+        $this->year = 2000;
     }
 
     public static function aBike(): self
@@ -32,11 +34,18 @@ class BikeDTOBuilder
         return $this;
     }
 
+    public function withYear(int $year): self
+    {
+        $this->year = $year;
+        return $this;
+    }
+
     public function build(): BikeDTO
     {
         return new BikeDTO(
             $this->brand,
-            $this->model
+            $this->model,
+            $this->year
         );
     }
 }
