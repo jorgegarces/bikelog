@@ -17,17 +17,17 @@ class SaveBikeUseCase
 
     public function __construct(
         BikeRepository $bikeRepository,
-        BikeInfoRepository $bikeBrandRepository
+        BikeInfoRepository $bikeInfoRepository
     )
     {
         $this->bikeRepository = $bikeRepository;
-        $this->bikeBrandRepository = $bikeBrandRepository;
+        $this->bikeBrandRepository = $bikeInfoRepository;
     }
 
     public function addBike(BikeDTO $requestDTO)
     {
         $this->checkBikeInfo($requestDTO);
-        $this->bikeRepository->save($this->createFromDTO($requestDTO));
+        $this->bikeRepository->save($this->createBikeFromDTO($requestDTO));
     }
 
     private function checkBikeInfo(BikeDTO $request): void
@@ -49,7 +49,7 @@ class SaveBikeUseCase
             ->findBrand(BikeBrand::createFromString($brand));
     }
 
-    private function checkModel(string $brand, string $model)
+    private function checkModel(string $brand, string $model): ?BikeModel
     {
         return $this->bikeBrandRepository
             ->findModelForBrand(
@@ -57,7 +57,7 @@ class SaveBikeUseCase
                 BikeModel::createFromString($model));
     }
 
-    private function createFromDTO(BikeDTO $bikeDTO): Bike
+    private function createBikeFromDTO(BikeDTO $bikeDTO): Bike
     {
         return new Bike(
             BikeBrand::createFromString($bikeDTO->getBrand()),
