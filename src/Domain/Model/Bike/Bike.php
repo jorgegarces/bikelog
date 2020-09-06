@@ -13,7 +13,7 @@ class Bike
     public function __construct(
         BikeBrand $brand,
         BikeModel $model,
-        int $year
+        BikeYear $year
     )
     {
         $this->brand = $brand;
@@ -31,7 +31,7 @@ class Bike
         return $this->model;
     }
 
-    public function year(): int
+    public function year(): BikeYear
     {
         return $this->year;
     }

@@ -2,10 +2,9 @@
 
 namespace App\Domain\Service\BikeInfoValidator;
 
-use App\Domain\Model\Bike\BikeModel;
-use App\Domain\Model\BikeBrand\BikeBrand;
+use App\Domain\Model\Bike\BikeDTO;
 
 interface BikeInfoValidator
 {
-    public function checkBikeInfo(BikeBrand $bikeBrand, BikeModel $bikeModel);
+    public function checkBikeInfo(BikeDTO $bikeInfo);
 }
