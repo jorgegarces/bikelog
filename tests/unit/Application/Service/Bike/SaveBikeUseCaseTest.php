@@ -4,6 +4,7 @@ namespace App\Tests\unit\Application\Service\Bike;
 
 use App\Application\Service\Bike\SaveBikeUseCase;
 use App\Domain\Model\Bike\Bike;
+use App\Domain\Model\Bike\BikeId;
 use App\Domain\Model\Bike\BikeRepository;
 use App\Domain\Model\BikeInfo\BikeBrand;
 use App\Domain\Model\BikeInfo\BikeModel;
@@ -36,10 +37,12 @@ class SaveBikeUseCaseTest extends TestCase
     /** @test */
     public function should_send_request_to_save_a_new_bike_with_valid_bike_info()
     {
+        $id = 'aValidId';
         $brand = 'aValidBrand';
         $model = 'aValidModel';
         $year = 2008;
         $saveBikeRequest = BikeDTOBuilder::aBike()
+            ->withId($id)
             ->withBrand($brand)
             ->withModel($model)
             ->withYear($year)
@@ -47,8 +50,9 @@ class SaveBikeUseCaseTest extends TestCase
 
         $this->saveBikeUseCase->addBike($saveBikeRequest);
 
-        $this->bikeRepository->save(Argument::that(function (Bike $expectedBike) use ($model, $brand, $year) {
-            return $expectedBike->model()->equals(BikeModel::createFromString($model))
+        $this->bikeRepository->save(Argument::that(function (Bike $expectedBike) use ($id, $model, $brand, $year) {
+            return $expectedBike->id()->equals(BikeId::createFromString($id))
+                && $expectedBike->model()->equals(BikeModel::createFromString($model))
                 && $expectedBike->brand()->equals(BikeBrand::createFromString($brand))
                 && $expectedBike->year()->equals(BikeYear::createFromInt($year));
 

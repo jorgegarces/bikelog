@@ -5,22 +5,19 @@ namespace App\Application\Service\Bike;
 use App\Domain\Model\Bike\Bike;
 use App\Domain\Model\Bike\BikeDTO;
 use App\Domain\Model\Bike\BikeRepository;
-use App\Domain\Model\BikeInfo\BikeBrand;
-use App\Domain\Model\BikeInfo\BikeModel;
-use App\Domain\Model\BikeInfo\BikeYear;
 use App\Domain\Service\BikeValidator\BikeValidator;
 
 class SaveBikeUseCase
 {
     private $bikeRepository;
-    private $bikeInfoValidator;
+    private $bikeValidator;
 
     public function __construct(
         BikeRepository $bikeRepository,
         BikeValidator $bikeInfoValidator
     ) {
         $this->bikeRepository = $bikeRepository;
-        $this->bikeInfoValidator = $bikeInfoValidator;
+        $this->bikeValidator = $bikeInfoValidator;
     }
 
     public function addBike(BikeDTO $requestDTO)
@@ -32,6 +29,6 @@ class SaveBikeUseCase
 
     private function checkBikeInfo(Bike $prospectBike)
     {
-        $this->bikeInfoValidator->validateBike($prospectBike);
+        $this->bikeValidator->validateBike($prospectBike);
     }
 }
