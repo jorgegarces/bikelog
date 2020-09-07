@@ -20,4 +20,9 @@ class BikeId
     {
         return  $id->id === $this->id;
     }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
 }

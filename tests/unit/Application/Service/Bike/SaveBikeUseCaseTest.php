@@ -55,7 +55,6 @@ class SaveBikeUseCaseTest extends TestCase
                 && $expectedBike->model()->equals(BikeModel::createFromString($model))
                 && $expectedBike->brand()->equals(BikeBrand::createFromString($brand))
                 && $expectedBike->year()->equals(BikeYear::createFromInt($year));
-
         }))->shouldHaveBeenCalled();
     }
 
