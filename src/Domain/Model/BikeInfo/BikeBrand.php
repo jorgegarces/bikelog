@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Model\BikeBrand;
+namespace App\Domain\Model\BikeInfo;
 
 class BikeBrand
 {

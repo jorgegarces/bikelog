@@ -4,12 +4,12 @@ namespace App\Tests\unit\Application\Service\Bike;
 
 use App\Application\Service\Bike\SaveBikeUseCase;
 use App\Domain\Model\Bike\Bike;
-use App\Domain\Model\Bike\BikeModel;
 use App\Domain\Model\Bike\BikeRepository;
-use App\Domain\Model\Bike\BikeYear;
-use App\Domain\Model\BikeBrand\BikeBrand;
-use App\Domain\Service\BikeInfoValidator\BikeInfoException;
-use App\Domain\Service\BikeInfoValidator\BikeInfoValidator;
+use App\Domain\Model\BikeInfo\BikeBrand;
+use App\Domain\Model\BikeInfo\BikeModel;
+use App\Domain\Model\BikeInfo\BikeYear;
+use App\Domain\Service\BikeValidator\BikeValidationException;
+use App\Domain\Service\BikeValidator\BikeValidator;
 use App\Tests\unit\Domain\Model\Bike\BikeDTOBuilder;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -20,16 +20,16 @@ class SaveBikeUseCaseTest extends TestCase
     use ProphecyTrait;
 
     private $bikeRepository;
+    private $bikeValidator;
     private $saveBikeUseCase;
-    private $bikeInfoValidator;
 
     protected function setUp(): void
     {
         $this->bikeRepository = $this->prophesize(BikeRepository::class);
-        $this->bikeInfoValidator = $this->prophesize(BikeInfoValidator::class);
+        $this->bikeValidator = $this->prophesize(BikeValidator::class);
         $this->saveBikeUseCase = new SaveBikeUseCase(
             $this->bikeRepository->reveal(),
-            $this->bikeInfoValidator->reveal()
+            $this->bikeValidator->reveal()
         );
     }
 
@@ -57,11 +57,13 @@ class SaveBikeUseCaseTest extends TestCase
 
    /** @test */
    public function should_not_save_a_bike_with_invalid_bike_info(){
+       $model = 'anInvalidModel';
        $saveBikeRequest = BikeDTOBuilder::aBike()
+           ->withModel($model)
            ->build();
-       $this->bikeInfoValidator->checkBikeInfo(Argument::any())->willThrow(BikeInfoException::class);
+       $this->bikeValidator->validateBike(Argument::any())->willThrow(BikeValidationException::class);
 
-       $this->expectException(BikeInfoException::class);
+       $this->expectException(BikeValidationException::class);
        $this->saveBikeUseCase->addBike($saveBikeRequest);
 
        $this->bikeRepository->save(Argument::any())->shouldNotHaveBeenCalled();

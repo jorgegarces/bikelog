@@ -3,18 +3,21 @@
 namespace App\Tests\unit\Domain\Model\Bike;
 
 use App\Domain\Model\Bike\Bike;
-use App\Domain\Model\Bike\BikeBrand;
-use App\Domain\Model\Bike\BikeModel;
+use App\Domain\Model\BikeInfo\BikeBrand;
+use App\Domain\Model\BikeInfo\BikeModel;
+use App\Domain\Model\BikeInfo\BikeYear;
 
 class BikeBuilder
 {
     private $brand;
     private $model;
+    private $year;
 
     private function __construct()
     {
         $this->brand = BikeBrand::createFromString('Honda');
         $this->model = BikeModel::createFromString('Fireblade');
+        $this->year = BikeYear::createFromInt(2000);
     }
 
     public static function aBike(): self
@@ -38,7 +41,8 @@ class BikeBuilder
     {
         return new Bike(
             $this->brand,
-            $this->model
+            $this->model,
+            $this->year
         );
     }
 }

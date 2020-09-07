@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Domain\Model\BikeBrand;
-
-use App\Domain\Model\Bike\BikeModel;
+namespace App\Domain\Model\BikeInfo;
 
 interface BikeInfoRepository
 {

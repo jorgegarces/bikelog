@@ -4,11 +4,11 @@ namespace App\Application\Service\Bike;
 
 use App\Domain\Model\Bike\Bike;
 use App\Domain\Model\Bike\BikeDTO;
-use App\Domain\Model\Bike\BikeModel;
 use App\Domain\Model\Bike\BikeRepository;
-use App\Domain\Model\Bike\BikeYear;
-use App\Domain\Model\BikeBrand\BikeBrand;
-use App\Domain\Service\BikeInfoValidator\BikeInfoValidator;
+use App\Domain\Model\BikeInfo\BikeBrand;
+use App\Domain\Model\BikeInfo\BikeModel;
+use App\Domain\Model\BikeInfo\BikeYear;
+use App\Domain\Service\BikeValidator\BikeValidator;
 
 class SaveBikeUseCase
 {
@@ -17,30 +17,21 @@ class SaveBikeUseCase
 
     public function __construct(
         BikeRepository $bikeRepository,
-        BikeInfoValidator $bikeInfoValidator
-    )
-    {
+        BikeValidator $bikeInfoValidator
+    ) {
         $this->bikeRepository = $bikeRepository;
         $this->bikeInfoValidator = $bikeInfoValidator;
     }
 
     public function addBike(BikeDTO $requestDTO)
     {
-        $this->checkBikeInfo($requestDTO);
-        $this->bikeRepository->save($this->createBikeFromDTO($requestDTO));
+        $bike = Bike::createFromDTO($requestDTO);
+        $this->checkBikeInfo($bike);
+        $this->bikeRepository->save($bike);
     }
 
-    private function createBikeFromDTO(BikeDTO $bikeDTO): Bike
+    private function checkBikeInfo(Bike $prospectBike)
     {
-        return new Bike(
-            BikeBrand::createFromString($bikeDTO->getBrand()),
-            BikeModel::createFromString($bikeDTO->getModel()),
-            BikeYear::createFromInt($bikeDTO->getYear())
-        );
-    }
-
-    private function checkBikeInfo($requestDTO)
-    {
-        $this->bikeInfoValidator->checkBikeInfo($requestDTO);
+        $this->bikeInfoValidator->validateBike($prospectBike);
     }
 }

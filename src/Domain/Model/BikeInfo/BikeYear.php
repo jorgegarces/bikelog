@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Model\Bike;
+namespace App\Domain\Model\BikeInfo;
 
 class BikeYear
 {

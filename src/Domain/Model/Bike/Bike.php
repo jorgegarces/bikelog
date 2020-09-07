@@ -2,7 +2,9 @@
 
 namespace App\Domain\Model\Bike;
 
-use App\Domain\Model\BikeBrand\BikeBrand;
+use App\Domain\Model\BikeInfo\BikeBrand;
+use App\Domain\Model\BikeInfo\BikeModel;
+use App\Domain\Model\BikeInfo\BikeYear;
 
 class Bike
 {
@@ -34,5 +36,14 @@ class Bike
     public function year(): BikeYear
     {
         return $this->year;
+    }
+
+    public static function createFromDTO(BikeDTO $requestDTO): self
+    {
+        return new self(
+            BikeBrand::createFromString($requestDTO->getBrand()),
+            BikeModel::createFromString($requestDTO->getModel()),
+            BikeYear::createFromInt($requestDTO->getYear())
+        );
     }
 }
