@@ -2,6 +2,7 @@
 
 namespace App\Domain\Model\Bike;
 
+use App\Domain\Model\Bike\ValueObjects\BikeId;
 use App\Domain\Model\BikeInfo\BikeBrand;
 use App\Domain\Model\BikeInfo\BikeModel;
 use App\Domain\Model\BikeInfo\BikeYear;

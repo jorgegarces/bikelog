@@ -4,8 +4,9 @@ namespace App\Tests\unit\Application\Service\Bike;
 
 use App\Application\Service\Bike\SaveBikeUseCase;
 use App\Domain\Model\Bike\Bike;
-use App\Domain\Model\Bike\BikeId;
 use App\Domain\Model\Bike\BikeRepository;
+use App\Domain\Model\Bike\ValueObjects\BikeId;
+use App\Domain\Model\Bike\ValueObjects\InvalidBikeIdException;
 use App\Domain\Model\BikeInfo\BikeBrand;
 use App\Domain\Model\BikeInfo\BikeModel;
 use App\Domain\Model\BikeInfo\BikeYear;
@@ -37,7 +38,7 @@ class SaveBikeUseCaseTest extends TestCase
     /** @test */
     public function should_send_request_to_save_a_new_bike_with_valid_bike_info()
     {
-        $id = 'aValidId';
+        $id = '5a6b3bf2-6459-4b44-8bfa-1c3838981348';
         $brand = 'aValidBrand';
         $model = 'aValidModel';
         $year = 2008;
@@ -56,6 +57,19 @@ class SaveBikeUseCaseTest extends TestCase
                 && $expectedBike->brand()->equals(BikeBrand::createFromString($brand))
                 && $expectedBike->year()->equals(BikeYear::createFromInt($year));
         }))->shouldHaveBeenCalled();
+    }
+
+    /** @test */
+    public function should_not_save_a_bike_with_an_invalid_id(){
+        $id = 'anInvalidId';
+        $saveBikeRequest = BikeDTOBuilder::aBike()
+            ->withId($id)
+            ->build();
+
+        $this->expectException(InvalidBikeIdException::class);
+        $this->saveBikeUseCase->addBike($saveBikeRequest);
+
+        $this->bikeRepository->save(Argument::any())->shouldNotHaveBeenCalled();
     }
 
    /** @test */
