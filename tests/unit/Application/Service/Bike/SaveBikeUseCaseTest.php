@@ -6,11 +6,10 @@ use App\Application\Service\Bike\SaveBikeUseCase;
 use App\Domain\Model\Bike\Bike;
 use App\Domain\Model\Bike\BikeRepository;
 use App\Domain\Model\Bike\ValueObjects\BikeId;
-use App\Domain\Model\Bike\ValueObjects\InvalidBikeIdException;
+use App\Domain\Model\Bike\ValueObjects\BikeValidationException;
+use App\Domain\Model\Bike\ValueObjects\BikeYear;
 use App\Domain\Model\BikeInfo\BikeBrand;
 use App\Domain\Model\BikeInfo\BikeModel;
-use App\Domain\Model\BikeInfo\BikeYear;
-use App\Domain\Service\BikeValidator\BikeValidationException;
 use App\Domain\Service\BikeValidator\BikeValidator;
 use App\Tests\unit\Domain\Model\Bike\BikeDTOBuilder;
 use PHPUnit\Framework\TestCase;
@@ -66,7 +65,20 @@ class SaveBikeUseCaseTest extends TestCase
             ->withId($id)
             ->build();
 
-        $this->expectException(InvalidBikeIdException::class);
+        $this->expectException(BikeValidationException::class);
+        $this->saveBikeUseCase->addBike($saveBikeRequest);
+
+        $this->bikeRepository->save(Argument::any())->shouldNotHaveBeenCalled();
+    }
+
+    /** @test */
+    public function should_not_save_a_bike_with_an_invalid_year(){
+        $year = 1959;
+        $saveBikeRequest = BikeDTOBuilder::aBike()
+            ->withYear($year)
+            ->build();
+
+        $this->expectException(BikeValidationException::class);
         $this->saveBikeUseCase->addBike($saveBikeRequest);
 
         $this->bikeRepository->save(Argument::any())->shouldNotHaveBeenCalled();
@@ -78,7 +90,8 @@ class SaveBikeUseCaseTest extends TestCase
        $saveBikeRequest = BikeDTOBuilder::aBike()
            ->withModel($model)
            ->build();
-       $this->bikeValidator->validateBike(Argument::any())->willThrow(BikeValidationException::class);
+       $this->bikeValidator->validateBike(Argument::any())
+           ->willThrow(BikeValidationException::class);
 
        $this->expectException(BikeValidationException::class);
        $this->saveBikeUseCase->addBike($saveBikeRequest);

@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Domain\Model\BikeInfo;
+namespace App\Domain\Model\Bike\ValueObjects;
 
 class BikeYear
 {
+    private const MIN_YEAR = 1960;
     private $year;
+
 
     private function __construct(int $year)
     {
@@ -13,7 +15,15 @@ class BikeYear
 
     public static function createFromInt(int $year): self
     {
+        self::validateYear($year);
         return new BikeYear($year);
+    }
+
+    private static function validateYear(int $year)
+    {
+        if ($year < self::MIN_YEAR || $year > (int) date("Y")) {
+            throw new BikeValidationException('Invalid year');
+        }
     }
 
     public function year()

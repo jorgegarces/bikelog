@@ -20,12 +20,12 @@ class BikeId
 
     /**
      * @param string $id
-     * @throws InvalidBikeIdException
+     * @throws BikeValidationException
      */
     private static function validateId(string $id): void
     {
         if ((preg_match(self::UUID_PATTERN, $id) !== 1)) {
-            throw new InvalidBikeIdException('Invalid Id');
+            throw new BikeValidationException('Invalid Id');
         }
     }
 
