@@ -3,10 +3,10 @@
 namespace App\Tests\unit\Domain\Model\Bike;
 
 use App\Domain\Model\Bike\Bike;
-use App\Domain\Model\Bike\BikeId;
-use App\Domain\Model\BikeInfo\BikeBrand;
-use App\Domain\Model\BikeInfo\BikeModel;
-use App\Domain\Model\BikeInfo\BikeYear;
+use App\Domain\Model\Bike\BikeModel\BikeBrand;
+use App\Domain\Model\Bike\BikeModel\BikeModel;
+use App\Domain\Model\Bike\ValueObjects\BikeId;
+use App\Domain\Model\Bike\ValueObjects\BikeYear;
 
 class BikeBuilder
 {

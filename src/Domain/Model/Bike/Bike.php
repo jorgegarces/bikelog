@@ -2,10 +2,10 @@
 
 namespace App\Domain\Model\Bike;
 
+use App\Domain\Model\Bike\BikeModel\BikeBrand;
+use App\Domain\Model\Bike\BikeModel\BikeModel;
 use App\Domain\Model\Bike\ValueObjects\BikeId;
 use App\Domain\Model\Bike\ValueObjects\BikeYear;
-use App\Domain\Model\BikeInfo\BikeBrand;
-use App\Domain\Model\BikeInfo\BikeModel;
 
 class Bike
 {

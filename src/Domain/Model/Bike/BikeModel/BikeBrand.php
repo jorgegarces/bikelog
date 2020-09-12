@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Model\BikeInfo;
+namespace App\Domain\Model\Bike\BikeModel;
 
 class BikeBrand
 {
@@ -16,8 +16,8 @@ class BikeBrand
         return new self($name);
     }
 
-    public function equals(BikeBrand $bikeBrand)
+    public function equals(BikeBrand $brand)
     {
-        return $bikeBrand->name === $this->name;
+        return $brand->name === $this->name;
     }
 }

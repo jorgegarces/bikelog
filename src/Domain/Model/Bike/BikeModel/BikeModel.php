@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Model\BikeInfo;
+namespace App\Domain\Model\Bike\BikeModel;
 
 class BikeModel
 {

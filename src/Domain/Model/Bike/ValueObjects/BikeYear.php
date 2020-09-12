@@ -19,6 +19,10 @@ class BikeYear
         return new BikeYear($year);
     }
 
+    /**
+     * @param int $year
+     * @throws BikeValidationException
+     */
     private static function validateYear(int $year)
     {
         if ($year < self::MIN_YEAR || $year > (int) date("Y")) {

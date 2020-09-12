@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Service\BikeValidator;
+namespace App\Domain\Service\BikeModelValidator;
 
 use PHPUnit\Framework\Exception;
 
