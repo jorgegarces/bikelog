@@ -20,7 +20,7 @@ class BikeBrandValidatorImplTest extends TestCase
     public function should_not_validate_a_bike_with_an_invalid_brand(){
         $bikeModelRepository = $this->prophesize(BikeModelRepository::class);
         $bikeBrandValidatorImpl =  new BikeModelValidatorImpl($bikeModelRepository->reveal());
-        $brand = 'aValidBrand';
+        $brand = 'anInvalidBrand';
         $aBike = BikeBuilder::aBike()
             ->withBrand(BikeBrand::createFromString($brand))
             ->build();
