@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  api:
+    build:
+      dockerfile: docker/php-fpm/Dockerfile
+      context: .
+    container_name: bikelog.api
+    volumes:
+      - ".:/app:cached"
+      - "~/.ssh/id_rsa:/root/.ssh/id_rsa"
