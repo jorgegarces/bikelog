@@ -17,6 +17,20 @@ class BikeBrandValidatorImplTest extends TestCase
     use ProphecyTrait;
 
     /** @test */
+    public function should_not_validate_a_bike_with_an_invalid_brand(){
+        $bikeModelRepository = $this->prophesize(BikeModelRepository::class);
+        $bikeBrandValidatorImpl =  new BikeModelValidatorImpl($bikeModelRepository->reveal());
+        $brand = 'aValidBrand';
+        $aBike = BikeBuilder::aBike()
+            ->withBrand(BikeBrand::createFromString($brand))
+            ->build();
+        $bikeModelRepository->findBrand(Argument::any())->willReturn(null);
+
+        $this->expectException(BikeValidationException::class);
+        $bikeBrandValidatorImpl->validateModel($aBike);
+    }
+
+    /** @test */
     public function should_not_validate_a_bike_with_an_invalid_model(){
         $bikeModelRepository = $this->prophesize(BikeModelRepository::class);
         $bikeBrandValidatorImpl =  new BikeModelValidatorImpl($bikeModelRepository->reveal());

@@ -17,16 +17,17 @@ class BikeModelValidatorImpl implements BikeModelValidator
     public function validateModel(Bike $prospectBike)
     {
        $brand = $this->bikeModelRepository->findBrand($prospectBike->brand());
-       $model = $this->bikeModelRepository->findModelForBrand(
-            $prospectBike->brand(),
+
+        if (null === $brand) {
+            throw new BikeValidationException('Brand not found');
+        }
+
+        $model = $this->bikeModelRepository->findModelForBrand(
+            $brand,
             $prospectBike->model()
         );
 
-       if (null === $brand) {
-           throw new BikeValidationException('Brand not found');
-       }
-
-       if (null === $model) {
+        if (null === $model) {
            throw new BikeValidationException('Invalid model');
        }
 
