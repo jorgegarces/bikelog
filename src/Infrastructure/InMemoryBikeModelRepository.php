@@ -8,7 +8,7 @@ use App\Domain\Model\Bike\BikeModel\BikeModelRepository;
 
 class InMemoryBikeModelRepository implements BikeModelRepository
 {
-    public $brands = [
+    private const BRANDS = [
         'Yamaha' => [
             'R1',
             'R6',
@@ -21,7 +21,7 @@ class InMemoryBikeModelRepository implements BikeModelRepository
 
     public function findBrand(BikeBrand $brand): ?BikeBrand
     {
-        if (array_key_exists($brand->brand(), $this->brands)) {
+        if (array_key_exists($brand->brand(), self::BRANDS)) {
             return $brand;
         }
         return null;
@@ -29,7 +29,7 @@ class InMemoryBikeModelRepository implements BikeModelRepository
 
     public function findModelForBrand(BikeBrand $brand, BikeModel $model): ?BikeModel
     {
-        if (false !== array_search($model->model(), $this->brands[$brand->brand()])) {
+        if (false !== array_search($model->model(), self::BRANDS[$brand->brand()])) {
             return $model;
         }
         return null;
