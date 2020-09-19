@@ -20,4 +20,9 @@ class BikeModel
     {
         return $model->name === $this->name;
     }
+
+    public function model(): string
+    {
+        return $this->name;
+    }
 }

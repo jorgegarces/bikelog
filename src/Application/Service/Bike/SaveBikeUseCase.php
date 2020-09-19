@@ -5,7 +5,7 @@ namespace App\Application\Service\Bike;
 use App\Domain\Model\Bike\Bike;
 use App\Domain\Model\Bike\BikeDTO;
 use App\Domain\Model\Bike\BikeRepository;
-use App\Domain\Service\BikeModelValidator\BikeModelValidator;
+use App\Domain\Service\BikeModelValidator\IBikeModelValidator;
 
 class SaveBikeUseCase
 {
@@ -14,7 +14,7 @@ class SaveBikeUseCase
 
     public function __construct(
         BikeRepository $bikeRepository,
-        BikeModelValidator $bikeInfoValidator
+        IBikeModelValidator $bikeInfoValidator
     ) {
         $this->bikeRepository = $bikeRepository;
         $this->bikeValidator = $bikeInfoValidator;

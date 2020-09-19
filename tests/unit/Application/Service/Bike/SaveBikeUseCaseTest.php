@@ -10,7 +10,7 @@ use App\Domain\Model\Bike\BikeRepository;
 use App\Domain\Model\Bike\ValueObjects\BikeId;
 use App\Domain\Model\Bike\ValueObjects\BikeValidationException;
 use App\Domain\Model\Bike\ValueObjects\BikeYear;
-use App\Domain\Service\BikeModelValidator\BikeModelValidator;
+use App\Domain\Service\BikeModelValidator\IBikeModelValidator;
 use App\Tests\unit\Domain\Model\Bike\BikeDTOBuilder;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -27,7 +27,7 @@ class SaveBikeUseCaseTest extends TestCase
     protected function setUp(): void
     {
         $this->bikeRepository = $this->prophesize(BikeRepository::class);
-        $this->bikeBrandValidator = $this->prophesize(BikeModelValidator::class);
+        $this->bikeBrandValidator = $this->prophesize(IBikeModelValidator::class);
         $this->saveBikeUseCase = new SaveBikeUseCase(
             $this->bikeRepository->reveal(),
             $this->bikeBrandValidator->reveal()

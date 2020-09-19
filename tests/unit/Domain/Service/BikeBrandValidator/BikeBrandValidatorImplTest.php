@@ -5,7 +5,7 @@ namespace App\Tests\unit\Domain\Service\BikeBrandValidator;
 use App\Domain\Model\Bike\BikeModel\BikeBrand;
 use App\Domain\Model\Bike\BikeModel\BikeModel;
 use App\Domain\Model\Bike\BikeModel\BikeModelRepository;
-use App\Domain\Service\BikeModelValidator\BikeModelValidatorImpl;
+use App\Domain\Service\BikeModelValidator\IBikeModelValidatorImpl;
 use App\Domain\Service\BikeModelValidator\BikeValidationException;
 use App\Tests\unit\Domain\Model\Bike\BikeBuilder;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +19,7 @@ class BikeBrandValidatorImplTest extends TestCase
     /** @test */
     public function should_not_validate_a_bike_with_an_invalid_brand(){
         $bikeModelRepository = $this->prophesize(BikeModelRepository::class);
-        $bikeBrandValidatorImpl =  new BikeModelValidatorImpl($bikeModelRepository->reveal());
+        $bikeBrandValidatorImpl =  new IBikeModelValidatorImpl($bikeModelRepository->reveal());
         $brand = 'anInvalidBrand';
         $aBike = BikeBuilder::aBike()
             ->withBrand(BikeBrand::createFromString($brand))
@@ -33,7 +33,7 @@ class BikeBrandValidatorImplTest extends TestCase
     /** @test */
     public function should_not_validate_a_bike_with_an_invalid_model(){
         $bikeModelRepository = $this->prophesize(BikeModelRepository::class);
-        $bikeBrandValidatorImpl =  new BikeModelValidatorImpl($bikeModelRepository->reveal());
+        $bikeBrandValidatorImpl =  new IBikeModelValidatorImpl($bikeModelRepository->reveal());
         $brand = 'aValidBrand';
         $model = 'anInvalidModel';
         $aBike = BikeBuilder::aBike()

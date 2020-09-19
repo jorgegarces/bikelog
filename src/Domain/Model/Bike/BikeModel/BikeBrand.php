@@ -16,8 +16,14 @@ class BikeBrand
         return new self($name);
     }
 
+    public function brand(): string
+    {
+    return $this->name;
+    }
+
     public function equals(BikeBrand $brand)
     {
         return $brand->name === $this->name;
     }
 }
+
