@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\integration\infrastructure;
+namespace App\Tests\unit\infrastructure;
 
 use App\Domain\Model\Bike\BikeModel\BikeBrand;
 use App\Domain\Model\Bike\BikeModel\BikeModel;

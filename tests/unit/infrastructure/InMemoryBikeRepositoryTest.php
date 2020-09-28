@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\integration\infrastructure;
+namespace App\Tests\unit\infrastructure;
 
 use App\Domain\Model\Bike\ValueObjects\BikeId;
 use App\Domain\Model\Bike\ValueObjects\BikePlateNumber;
