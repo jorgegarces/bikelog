@@ -5,7 +5,7 @@ namespace App\Domain\Service\BikeModelValidator;
 use App\Domain\Model\Bike\Bike;
 use App\Domain\Model\Bike\BikeModel\BikeModelRepository;
 
-class IBikeModelValidatorImpl implements IBikeModelValidator
+class BikeModelValidatorImpl implements IBikeModelValidator
 {
     private $bikeModelRepository;
 

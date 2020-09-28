@@ -20,16 +20,21 @@ class BikeId
 
     /**
      * @param string $id
-     * @throws BikeValidationException
+     * @throws BikeInfoException
      */
     private static function validateId(string $id): void
     {
         if ((preg_match(self::UUID_PATTERN, $id) !== 1)) {
-            throw new BikeValidationException('Invalid Id');
+            throw new BikeInfoException('Invalid Id');
         }
     }
 
     public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function toString(): string
     {
         return $this->id;
     }

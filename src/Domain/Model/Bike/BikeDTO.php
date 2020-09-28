@@ -8,15 +8,18 @@ class BikeDTO
     private $model;
     private $year;
     private $id;
+    private $plateNumber;
 
     public function __construct(
         string $id,
+        string $plateNumber,
         string $brand,
         string $model,
         int $year
     )
     {
         $this->id = $id;
+        $this->plateNumber = $plateNumber;
         $this->brand = $brand;
         $this->model = $model;
         $this->year = $year;
@@ -27,17 +30,25 @@ class BikeDTO
         return $this->id;
     }
 
-    public function getBrand(): string
+    public function getPlateNumber(): string
+    {
+        return $this->plateNumber;
+    }
+
+    public
+    function getBrand(): string
     {
         return $this->brand;
     }
 
-    public function getModel(): string
+    public
+    function getModel(): string
     {
         return $this->model;
     }
 
-    public function getYear(): int
+    public
+    function getYear(): int
     {
         return $this->year;
     }

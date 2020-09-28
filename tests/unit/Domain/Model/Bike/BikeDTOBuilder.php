@@ -10,10 +10,12 @@ class BikeDTOBuilder
     private $brand;
     private $model;
     private $year;
+    private $plateNumber;
 
     private function __construct()
     {
         $this->id = '83da585c-5788-4a39-a2ee-3fc568397b3f';
+        $this->plateNumber = '0000AAA';
         $this->brand = 'Honda';
         $this->model = 'Fireblade';
         $this->year = 2000;
@@ -48,10 +50,17 @@ class BikeDTOBuilder
         return $this;
     }
 
+    public function withPlateNumber(string $plateNumber): self
+    {
+        $this->plateNumber = $plateNumber;
+        return $this;
+    }
+
     public function build(): BikeDTO
     {
         return new BikeDTO(
             $this->id,
+            $this->plateNumber,
             $this->brand,
             $this->model,
             $this->year

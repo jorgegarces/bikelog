@@ -2,6 +2,6 @@
 
 namespace App\Domain\Model\Bike\ValueObjects;
 
-class BikeValidationException extends \Exception
+class BikeInfoException extends \Exception
 {
 }
