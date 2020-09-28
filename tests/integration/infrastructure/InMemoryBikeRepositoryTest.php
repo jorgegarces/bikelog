@@ -11,18 +11,37 @@ use PHPUnit\Framework\TestCase;
 
 class InMemoryBikeRepositoryTest extends TestCase
 {
+    private $repository;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->repository = new InMemoryBikeRepository();
+    }
+
     /** @test */
     public function should_save_a_bike(){
         $aBike = BikeBuilder::aBike()->build();;
-        $repository = new InMemoryBikeRepository();
 
-        $expectedBike = $repository->save($aBike);
+        $expectedBike = $this->repository->save($aBike);
         self::assertEquals($expectedBike, $aBike);
     }
 
-    /** @ytest */
+    /** @test */
     public function should_save_multiple_bikes(){
+        $aBike = BikeBuilder::aBike()
+            ->withId(BikeId::createFromString('a7abc694-4d8b-4644-b5df-bf4dd00dc7ba'))
+            ->withPlateNumber(BikePlateNumber::createFromString('0000AAA'))
+            ->build();
+        $anotherBike = BikeBuilder::aBike()
+            ->withId(BikeId::createFromString('567c452c-28bf-4cec-9f9b-cce08a1f34b7'))
+            ->withPlateNumber(BikePlateNumber::createFromString('0000BBB'))
+            ->build();
+        $this->repository->save($aBike);
 
+        $response = $this->repository->save($anotherBike);
+
+        self::assertEquals($response, $anotherBike);
     }
 
     /** @test */
@@ -35,10 +54,9 @@ class InMemoryBikeRepositoryTest extends TestCase
             ->withId(BikeId::createFromString('567c452c-28bf-4cec-9f9b-cce08a1f34b7'))
             ->withPlateNumber(BikePlateNumber::createFromString('0000AAB'))
             ->build();
-        $repository = new InMemoryBikeRepository();
-        $repository->save($aBike);
+        $this->repository->save($aBike);
 
         $this->expectException(BikeExistsException::class);
-        $repository->save($anotherBike);
+        $this->repository->save($anotherBike);
     }
 }
